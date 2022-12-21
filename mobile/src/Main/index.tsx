@@ -49,6 +49,29 @@ export function Main() {
     });
   }
 
+  function handleDecrementCartItem(product: Product) {
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex(
+        cartItem => cartItem.product._id === product._id
+      );
+      const item = prevState[itemIndex];
+      const newCartItems = [...prevState];
+
+      if (item.quantity === 1) {
+        newCartItems.splice(itemIndex, 1);
+
+        return newCartItems;
+      }
+
+      newCartItems[itemIndex] = {
+        ...item,
+        quantity: item.quantity - 1,
+      };
+
+      return newCartItems;
+    });
+  }
+
   return (
     <>
       <Container>
@@ -70,7 +93,11 @@ export function Main() {
               Novo Pedido
             </Button>
           ) : (
-            <Cart cartItems={cartItems}/>
+            <Cart
+              cartItems={cartItems}
+              onAdd={handleAddToCart}
+              onDecrement={handleDecrementCartItem}
+            />
           )}
         </FooterContainer>
       </Footer>
