@@ -5,23 +5,14 @@ import { Categories } from '../components/Categories';
 import { Header } from '../components/Header';
 import { Menu } from '../components/Menu';
 import { TableModal } from '../components/TableModal';
-import { products } from '../mocks/products';
 import { CartItem } from '../types/CartItem';
+import { Product } from '../types/Products';
 import { CategoriesContainer, Container, Footer, FooterContainer, MenuContainer } from './styles';
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      quantity: 1,
-      product: products[0],
-    },
-    {
-      quantity: 2,
-      product: products[1],
-    },
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -29,6 +20,33 @@ export function Main() {
 
   function handleCancelOrder() {
     setSelectedTable('');
+  }
+
+  function handleAddToCart(product: Product) {
+    if (!selectedTable) {
+      setIsTableModalVisible(true);
+    }
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex(
+        cartItem => cartItem.product._id === product._id
+      );
+      if (itemIndex < 0) {
+        return prevState.concat({
+          quantity: 1,
+          product,
+        });
+      }
+
+      const newCartItems = [...prevState];
+      const item = newCartItems[itemIndex];
+
+      newCartItems[itemIndex] = {
+        ...item,
+        quantity: item.quantity + 1,
+      };
+
+      return newCartItems;
+    });
   }
 
   return (
@@ -42,7 +60,7 @@ export function Main() {
           <Categories />
         </CategoriesContainer>
         <MenuContainer>
-          <Menu />
+          <Menu onAddToCart={handleAddToCart}/>
         </MenuContainer>
       </Container>
       <Footer>
