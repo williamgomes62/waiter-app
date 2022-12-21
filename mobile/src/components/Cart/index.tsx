@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { CartItem } from '../../types/CartItem';
@@ -19,6 +20,7 @@ interface CartProps {
 
 export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder }: CartProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const total = cartItems.reduce((acc, cartItem) => {
     return acc + cartItem.quantity * cartItem.product.price;
@@ -90,6 +92,7 @@ export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder }: CartProp
         <Button
           onPress={handleConfirmOrder}
           disabled={cartItems.length === 0}
+          loading={isLoading}
         >
           Confirmar Pedido
         </Button>
