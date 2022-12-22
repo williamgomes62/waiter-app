@@ -43,10 +43,9 @@ export function Menu({ onAddToCart, products }: MenuProps) {
         renderItem={({ item: product }) => (
           <ProductContainer onPress={() => handleOpenModal(product)}>
             <ImageDetails
-              // source={{
-              //   : `http://10.0.0.104:3001/uploads/${product.imagePath}`,
-              // }}
-              source={require('../../assets/1668645450167-quatro-queijos.png')}
+              source={{
+                uri:`http://10.0.0.104:3001/uploads/${product.imagePath}`,
+              }}
             />
             <ProductDetails>
               <Text weight='600'>{product.name}</Text>
