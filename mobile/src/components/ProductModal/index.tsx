@@ -41,10 +41,9 @@ export function ProductModal({ visible, onClose, product, onAddToCart }: Product
       onRequestClose={onClose}
     >
       <Image
-        // source={{ vira da api
-        //   uri:
-        // }}
-        source={require('../../assets/1668645450167-quatro-queijos.png')}
+        source={{
+          uri: `http://10.0.0.104:3001/uploads/${product.imagePath}`,
+        }}
       >
         <CloseButton onPress={onClose}>
           <Close />

@@ -49,6 +49,7 @@ export function Main() {
     setIsLoadingProducts(true);
 
     const { data } = await api.get(route);
+
     setProducts(data);
     setIsLoadingProducts(false);
   }
@@ -172,6 +173,7 @@ export function Main() {
               onAdd={handleAddToCart}
               onDecrement={handleDecrementCartItem}
               onConfirmOrder={handleResetOrder}
+              selectedTable={selectedTable}
             />
           )}
         </FooterContainer>
