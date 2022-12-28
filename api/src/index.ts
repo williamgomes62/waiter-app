@@ -1,12 +1,17 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'node:path';
+import http from 'node:http';
+import { Server } from 'socket.io';
 
 import { router } from './router';
 
+const app = express();
+const server = http.createServer(app);
+export const io = new Server(server);
+
 mongoose.connect('mongodb://localhost:27017')
   .then(() => {
-    const app = express();
 
     //Configurações do cors
     app.use((req, res, next) => {
@@ -23,7 +28,7 @@ mongoose.connect('mongodb://localhost:27017')
 
     // subindo um servidor com express
     const port = 3001;
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });
   })
