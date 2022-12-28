@@ -8,6 +8,14 @@ mongoose.connect('mongodb://localhost:27017')
   .then(() => {
     const app = express();
 
+    //Configurações do cors
+    app.use((req, res, next) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', '*');
+      res.setHeader('Access-Control-Allow-Headers', '*');
+      next();
+    });
+
     //arquivo estatico
     app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
     app.use(express.json()); // transforma para obj javascript
