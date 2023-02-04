@@ -15,7 +15,8 @@ export function Orders() {
     });
 
     socket.on('orders@new', (order) => {
-      setOrders(prevState => prevState.concat(order));
+      const newOrders = orders.filter(x => x._id !== order._id);
+      setOrders(newOrders.concat(order));
     });
   }, []);
 
@@ -24,7 +25,7 @@ export function Orders() {
       .then(({ data }) => {
         setOrders(data);
       });
-  }, []);
+  }, [orders]);
 
   const waiting = orders.filter((order) => order.status === 'WAITING');
   const inProduction = orders.filter((order) => order.status === 'IN_PRODUCTION');
