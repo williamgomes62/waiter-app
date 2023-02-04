@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Product } from '../../models/Product';
+import { io } from '../../..';
 
 //req possui as informações enviadas para a requisição
 export async function createProduct(req: Request, res: Response) {
@@ -16,6 +17,7 @@ export async function createProduct(req: Request, res: Response) {
       category,
       ingredients: ingredients ? JSON.parse(ingredients) : [],
     });
+    io.emit('created@product', product);
     res.status(201).json(product);
   } catch (error) {
     console.log(error);

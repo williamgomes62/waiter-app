@@ -1,3 +1,4 @@
+import io from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Button } from '../components/Buttons';
@@ -29,6 +30,25 @@ export function Main() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+
+  useEffect(() => {
+    const socket = io('http://10.0.0.106:3001', {
+      transports: ['websocket'],
+    });
+
+    socket.on('created@product', (product) => {
+      setProducts(prevState => prevState.concat(product));
+    });
+
+    socket.on('deleted@product', (products) => {
+      setProducts(products);
+    });
+
+    return function didUnmount() {
+      socket.disconnect();
+      socket.removeAllListeners();
+    };
+  }, []);
 
   useEffect(() => {
     Promise.all([

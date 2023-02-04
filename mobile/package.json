@@ -19,6 +19,7 @@
     "react-native": "0.70.5",
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.9",
+    "socket.io-client": "^4.5.4",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {

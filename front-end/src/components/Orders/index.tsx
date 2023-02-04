@@ -15,9 +15,13 @@ export function Orders() {
     });
 
     socket.on('orders@new', (order) => {
-      const newOrders = orders.filter(x => x._id !== order._id);
-      setOrders(newOrders.concat(order));
+      setOrders(prevState => prevState.concat(order));
     });
+
+    return function didUnmount() {
+      socket.disconnect();
+      socket.removeAllListeners();
+    };
   }, []);
 
   useEffect(() => {
