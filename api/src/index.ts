@@ -2,15 +2,21 @@ import express from 'express';
 import mongoose from 'mongoose';
 import path from 'node:path';
 import http from 'node:http';
+import * as dotenv from 'dotenv';
+dotenv.config();
 import { Server } from 'socket.io';
-
 import { router } from './router';
 
 const app = express();
 const server = http.createServer(app);
 export const io = new Server(server);
 
-mongoose.connect('mongodb://localhost:27017')
+const MONGO_URL =
+  process.env.PROD_ENV === 'true' ? (
+    `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@containers-us-west-146.railway.app:${process.env.DB_PORT}`
+  ) : 'mongodb://localhost:27017';
+
+mongoose.connect(MONGO_URL)
   .then(() => {
 
     //Configurações do cors
@@ -29,7 +35,11 @@ mongoose.connect('mongodb://localhost:27017')
     // subindo um servidor com express
     const port = 3001;
     server.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
+      const message =
+        process.env.PROD_ENV === 'true' ? (
+          'Server is running in production environment'
+        ) : `Server is running on http://localhost:${port}`;
+      console.log(message);
     });
   })
-  .catch(() => console.log('erro'));
+  .catch(() => console.log('error => mongoose conection'));
