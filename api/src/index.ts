@@ -33,7 +33,7 @@ mongoose.connect(MONGO_URL)
     app.use(router);
 
     // subindo um servidor com express
-    const port = 3001;
+    const port = process.env.PORT;
     server.listen(port, () => {
       const message =
         process.env.PROD_ENV === 'true' ? (
