@@ -40,8 +40,16 @@ export function Main() {
       setProducts(prevState => prevState.concat(product));
     });
 
+    socket.on('created@category', (category) => {
+      setCategories(prevState => prevState.concat(category));
+    });
+
     socket.on('deleted@product', (products) => {
       setProducts(products);
+    });
+
+    socket.on('deleted@category', (categories) => {
+      setProducts(categories);
     });
 
     return function didUnmount() {
