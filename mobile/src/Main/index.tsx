@@ -49,7 +49,7 @@ export function Main() {
     });
 
     socket.on('deleted@category', (categories) => {
-      setProducts(categories);
+      setCategories(categories);
     });
 
     return function didUnmount() {
