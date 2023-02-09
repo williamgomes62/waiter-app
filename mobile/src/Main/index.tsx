@@ -20,7 +20,7 @@ import {
 import { Empty } from '../components/Icons/Empty';
 import { Text } from '../components/Text';
 import { Category } from '../types/Category';
-import { api } from '../utils/api';
+import { api, API_URL } from '../utils/api';
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
@@ -32,7 +32,7 @@ export function Main() {
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   useEffect(() => {
-    const socket = io('http://10.0.0.106:3001', {
+    const socket = io(API_URL, {
       transports: ['websocket'],
     });
 

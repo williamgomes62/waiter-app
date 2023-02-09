@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export const API_URL = 'https://waiter-app-production.up.railway.app';
+
 export const api = axios.create({
-  baseURL: 'http://10.0.0.106:3001',
+  baseURL: API_URL,
 });
